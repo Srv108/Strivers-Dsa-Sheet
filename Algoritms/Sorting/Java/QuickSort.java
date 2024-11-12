@@ -1,44 +1,46 @@
 import java.util.*;
 public class QuickSort {
-        
-    public static void partition(int[] arr,int pivot_ele){
-        int n = arr.length;
-        int i = 0,j = 0;
-        while(j < n){
-            if(arr[j] < pivot_ele){
-                int temp = arr[j];
-                arr[j] = arr[i];
-                arr[i] = temp;
 
-                i++;
+    public static int partition(int[] arr, int start, int end) {
+        int pivot_ele = arr[end];  
+        int i = start - 1; 
+
+        for (int j = start; j < end; j++) {
+            if (arr[j] <= pivot_ele) {
+                i++; 
+
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
             }
-            j++;
         }
-        
+
+        int temp = arr[i + 1];
+        arr[i + 1] = arr[end];
+        arr[end] = temp;
+
+        return i + 1; 
     }
 
-    public static void quickSortHelper(int[] arr,int start,int end ){
-        if(start > end){
-            return;
+    public static void quickSortHelper(int[] arr, int start, int end) {
+        if (start < end) {
+
+            int pivotIndex = partition(arr, start, end);
+            quickSortHelper(arr, start, pivotIndex - 1); 
+            quickSortHelper(arr, pivotIndex + 1, end);   
         }
-        int mid = (start + end) / 2;
-        partition(arr,arr[mid]);
-        quickSortHelper(arr,start,mid-1); // left array
-        quickSortHelper(arr,mid+1,end); // right array
     }
 
-    public static void quickSort(int[] arr){
-        quickSortHelper(arr,0,arr.length-1);
-        
+    public static void quickSort(int[] arr) {
+        quickSortHelper(arr, 0, arr.length - 1);
     }
 
-    public static void main(String[] args){
-        int arr[] = {4,3,2,5,8,7,6,0,10,7};
-
+    public static void main(String[] args) {
+        int arr[] = {9, 8, 7, 6, 5, 4, 3, 2,3,3,3,3,-1,0,-4,3}; 
         int n = arr.length;
-        quickSort(arr);
+        quickSort(arr);  
 
-        for (int i=0;i<n;i++){
+        for (int i = 0; i < n; i++) {
             System.out.println(arr[i]);
         }
     }
